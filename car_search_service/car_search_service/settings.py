@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+from celery.schedules import crontab
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -131,4 +132,20 @@ STATIC_URL = '/static/'
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+}
+
+# Настройки Celery
+
+# Укажите используемую шину сообщений, например Redis
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+
+# Используйте зону времени UTC
+CELERY_TIMEZONE = 'UTC'
+
+# Настройки расписания для Celery Beat
+CELERY_BEAT_SCHEDULE = {
+    'update-truck-locations-every-3-minutes': {
+        'task': 'service.tasks.update_truck_locations',
+        'schedule': crontab(minute='*/3'),  # Запускать каждые 3 минуты
+    },
 }

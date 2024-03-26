@@ -17,6 +17,7 @@ class Location(models.Model):
     def str(self):
         return f'{self.city}, {self.state}, {self.zip_code}'
 
+
 class Truck(models.Model):
     unique_number = models.CharField(max_length=5, unique=True, validators=[validate_unique_number])
     current_location = models.ForeignKey(Location, on_delete=models.SET_NULL, null=True)
@@ -28,6 +29,7 @@ class Truck(models.Model):
 
     def str(self):
         return self.unique_number
+
 
 class Cargo(models.Model):
     pick_up_location = models.ForeignKey(Location, related_name='pick_up_location', on_delete=models.SET_NULL, null=True)
