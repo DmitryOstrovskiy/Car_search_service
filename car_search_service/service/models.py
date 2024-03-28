@@ -23,22 +23,26 @@ class Truck(models.Model):
     current_location = models.ForeignKey(Location, on_delete=models.SET_NULL, null=True)
     capacity = models.PositiveIntegerField(validators=[
         MinValueValidator(
-            1, message='Минимальная грузоподъемность не может быть менее 1'),
-            MaxValueValidator(
-                1000, message='Максимальная грузоподъемность не может быть более 1000')])
+            1, message='Минимальная грузоподъемность не менее 1'),
+        MaxValueValidator(
+            1000, message='Максимальная грузоподъемность не более 1000')])
 
     def str(self):
         return self.unique_number
 
 
 class Cargo(models.Model):
-    pick_up_location = models.ForeignKey(Location, related_name='pick_up_location', on_delete=models.SET_NULL, null=True)
-    delivery_location = models.ForeignKey(Location, related_name='delivery_location', on_delete=models.SET_NULL, null=True)
+    pick_up_location = models.ForeignKey(Location,
+                                         related_name='pick_up_location',
+                                         on_delete=models.SET_NULL, null=True)
+    delivery_location = models.ForeignKey(Location,
+                                          related_name='delivery_location',
+                                          on_delete=models.SET_NULL, null=True)
     weight = models.PositiveIntegerField(validators=[
         MinValueValidator(
-            1, message='Минимальная грузоподъемность не может быть менее 1'),
-            MaxValueValidator(
-                1000, message='Максимальная грузоподъемность не может быть более 1000')])
+            1, message='Минимальная грузоподъемность не менее 1'),
+        MaxValueValidator(
+            1000, message='Максимальная грузоподъемность не более 1000')])
     description = models.TextField()
     nearby_trucks = ArrayField(models.CharField(max_length=5), default=list)
 
