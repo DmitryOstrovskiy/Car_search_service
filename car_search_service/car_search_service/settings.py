@@ -138,14 +138,14 @@ REST_FRAMEWORK = {
 
 # Укажите используемую шину сообщений, например Redis
 CELERY_BROKER_URL = 'redis://localhost:6379/0'
-
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 # Используйте зону времени UTC
 CELERY_TIMEZONE = 'UTC'
 
 # Настройки расписания для Celery Beat
 CELERY_BEAT_SCHEDULE = {
-    'update-truck-locations-every-3-minutes': {
-        'task': 'service.tasks.update_truck_locations',
-        'schedule': crontab(minute='*/3'),  # Запускать каждые 3 минуты
-    },
-}
+       'update-truck-locations-every-3-minutes': {
+           'task': 'service.tasks.update_truck_locations',
+           'schedule': 180.0,  # Запускать каждые 3 минуты
+       },
+   }

@@ -1,11 +1,12 @@
-from celery import shared_task
-from service.models import Truck, Location
+from car_search_service.celery import app
+from .models import Truck, Location
 import random
 from celery.utils.log import get_task_logger
 
 logger = get_task_logger(__name__)
 
-@shared_task
+
+@app.task
 def update_truck_locations():
     logger.info("Starting the update of truck locations...")
     locations = list(Location.objects.all())
